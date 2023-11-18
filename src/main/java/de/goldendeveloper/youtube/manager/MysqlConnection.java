@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class MysqlConnection {
 
     private final MYSQL mysql;
-    public static String dbName = "gd_sozialwatcher";
+    public static String dbName = "GD-SozialWatcher";
     public static String youtubeTableName = "Youtube";
 
     public MysqlConnection(String hostname, String username, String password, int port) {
