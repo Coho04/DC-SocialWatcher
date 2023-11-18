@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.goldendeveloper</groupId>
-    <artifactId>DC-SozialWatcher</artifactId>
+    <artifactId>GD-SozialWatcher</artifactId>
     <version>1.0</version>
 
     <properties>
