@@ -15,7 +15,7 @@ public class Main {
         DCBotBuilder dcBotBuilder = new DCBotBuilder(args, false);
         dcBot = dcBotBuilder.build();
         mysqlConnection = new MysqlConnection(customConfig.getMysqlHostname(), customConfig.getMysqlUsername(), customConfig.getMysqlPassword(), customConfig.getMysqlPort());
-         new YouTubeDiscordNotifier();
+        new YouTubeDiscordNotifier();
     }
 
     public static MysqlConnection getMysqlConnection() {

@@ -1,7 +1,7 @@
 package de.goldendeveloper.youtube.manager.youtube;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 public class YouTubeDiscordNotifier {
@@ -22,7 +23,6 @@ public class YouTubeDiscordNotifier {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Running");
                 checkForNewVideo();
             }
         }, 0, 60000);
@@ -30,7 +30,7 @@ public class YouTubeDiscordNotifier {
 
     public void checkForNewVideo() {
         try {
-            YouTube youtube = new YouTube.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null).setApplicationName("youtube-discord-notifier").build();
+            YouTube youtube = new YouTube.Builder(GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(), null).setApplicationName("youtube-discord-notifier").build();
 
             YouTube.Channels.List channelRequest = youtube.channels().list(Collections.singletonList("contentDetails"));
             channelRequest.setKey(Main.getCustomConfig().getYtApiKey());
@@ -39,8 +39,8 @@ public class YouTubeDiscordNotifier {
                 channelRequest.setId(Collections.singletonList(channel));
                 getOrCheck(channelRequest.execute(), youtube, channel);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | GeneralSecurityException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -48,12 +48,7 @@ public class YouTubeDiscordNotifier {
         String uploadPlaylistId = channelResponse.getItems().get(0).getContentDetails().getRelatedPlaylists().getUploads();
         YouTube.PlaylistItems.List playlistRequest = youtube.playlistItems().list(Collections.singletonList("snippet"));
 
-
-
-
-        playlistRequest.setKey(Main.getCustomConfig().getYtApiKey())
-                .setPlaylistId(uploadPlaylistId)
-                .setMaxResults(1L);
+        playlistRequest.setKey(Main.getCustomConfig().getYtApiKey()).setPlaylistId(uploadPlaylistId).setMaxResults(1L);
         PlaylistItem playlistItem = playlistRequest.execute().getItems().get(0);
         String videoId = playlistItem.getSnippet().getResourceId().getVideoId();
 
@@ -66,7 +61,7 @@ public class YouTubeDiscordNotifier {
 
         YouTube.Channels.List request = youtube.channels()
                 .list(Collections.singletonList("snippet"))
-                .setId(Collections.singletonList(youtubeChannelId))  // Setzen Sie hier die Kanal-ID
+                .setId(Collections.singletonList(youtubeChannelId))
                 .setKey(Main.getCustomConfig().getYtApiKey());
         String channelName = request.execute().getItems().get(0).getSnippet().getTitle();
 
@@ -92,12 +87,15 @@ public class YouTubeDiscordNotifier {
             NewsChannel channel = guild.getNewsChannelById(discordChannelId);
             if (channel != null) {
                 String description = String.format(
-                        "🌟 **Neues Video veröffentlicht!** 🌟\n\n" +
-                                "Hey Leute, wir haben gerade ein brandneues Video hochgeladen!\n" +
-                                "➤ **Titel:** %s\n" +
-                                "➤ **Kanal:** %s\n\n" +
-                                "Klickt auf den Link unten, um das Video anzusehen und vergesst nicht, zu liken und zu abonnieren!\n" +
-                                "Wir freuen uns auf euer Feedback in den Kommentaren. Viel Spaß beim Anschauen! 🎉",
+                        """
+                                🌟 **Neues Video veröffentlicht!** 🌟
+
+                                Hey Leute, wir haben gerade ein brandneues Video hochgeladen!
+                                ➤ **Titel:** %s
+                                ➤ **Kanal:** %s
+
+                                Klickt auf den Link unten, um das Video anzusehen und vergesst nicht, zu liken und zu abonnieren!
+                                Wir freuen uns auf euer Feedback in den Kommentaren. Viel Spaß beim Anschauen! 🎉""",
                         videoTitle, ytChannelName);
 
                 channel.sendMessageEmbeds(
