@@ -98,7 +98,7 @@ public class YouTubeDiscordNotifier {
                                 Wir freuen uns auf euer Feedback in den Kommentaren. Viel Spaß beim Anschauen! 🎉""",
                         videoTitle, ytChannelName);
 
-                channel.sendMessageEmbeds(
+                channel.sendMessage("@everyone").addEmbeds(
                         new EmbedBuilder().setTitle(videoTitle, videoUrl)
                                 .setDescription(description)
                                 .setColor(0xdd2e44)
