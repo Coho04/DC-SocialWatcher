@@ -3,8 +3,10 @@ package de.goldendeveloper.youtube.manager;
 import de.goldendeveloper.mysql.MYSQL;
 import de.goldendeveloper.mysql.entities.Database;
 import de.goldendeveloper.mysql.entities.Table;
+import de.goldendeveloper.mysql.exceptions.NoConnectionException;
 import de.goldendeveloper.youtube.manager.errors.CustomExceptionHandler;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class MysqlConnection {
@@ -13,7 +15,7 @@ public class MysqlConnection {
     public static String dbName = "GD-SozialWatcher";
     public static String youtubeTableName = "Youtube";
 
-    public MysqlConnection(String hostname, String username, String password, int port) {
+    public MysqlConnection(String hostname, String username, String password, int port) throws NoConnectionException, SQLException {
         mysql = new MYSQL(hostname, username, password, port, new CustomExceptionHandler());
         if (!mysql.existsDatabase(dbName)) {
             mysql.createDatabase(dbName);
