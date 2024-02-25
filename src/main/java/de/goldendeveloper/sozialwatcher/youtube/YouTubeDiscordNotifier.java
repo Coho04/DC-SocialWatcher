@@ -1,4 +1,4 @@
-package de.goldendeveloper.youtube.manager.youtube;
+package de.goldendeveloper.sozialwatcher.youtube;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -6,8 +6,8 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
 import de.goldendeveloper.mysql.entities.*;
-import de.goldendeveloper.youtube.manager.Main;
-import de.goldendeveloper.youtube.manager.MysqlConnection;
+import de.goldendeveloper.sozialwatcher.Main;
+import de.goldendeveloper.sozialwatcher.MysqlConnection;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
