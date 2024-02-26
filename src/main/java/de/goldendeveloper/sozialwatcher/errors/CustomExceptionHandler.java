@@ -1,4 +1,4 @@
-package de.goldendeveloper.youtube.manager.errors;
+package de.goldendeveloper.sozialwatcher.errors;
 
 import de.goldendeveloper.mysql.errors.ExceptionHandler;
 import io.sentry.Sentry;

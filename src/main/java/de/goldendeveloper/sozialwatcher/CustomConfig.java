@@ -1,4 +1,4 @@
-package de.goldendeveloper.youtube.manager;
+package de.goldendeveloper.sozialwatcher;
 
 import de.goldendeveloper.dcbcore.Config;
 
@@ -23,4 +23,18 @@ public class CustomConfig extends Config {
     public String getMysqlUsername() {
         return dotenv.get("MYSQL_USERNAME");
     }
+
+    public String getTwitchClientID() {
+        return dotenv.get("TWITCH_CLIENT_ID");
+    }
+
+    public String getTwitchClientSecret() {
+        return dotenv.get("TWITCH_CLIENT_SECRET");
+    }
+
+    public String getTwitchCredential() {
+        return dotenv.get("TWITCH_CREDENTIAL");
+    }
+
+
 }
