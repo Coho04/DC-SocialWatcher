@@ -29,15 +29,7 @@ public class TwitchChannel implements CommandInterface {
 
     @Override
     public CommandData commandData() {
-        return Commands.slash(cmdTwitchChannel, "Füge die Benachrichtigung eines Twitch Kanals dem Discord Server hinzu!")
-                .addSubcommands(
-                        new SubcommandData(cmdTwitchChannelAdd, "Setzte den Info Channel für deine Twitch Live Streams")
-                                .addOption(OptionType.CHANNEL, discordChannel, "Hier bitte den Discord Benachrichtigung`s Channel angeben!", true)
-                                .addOption(OptionType.ROLE, discordRole, "Hier bitte die Discord Benachrichtigung`s Rolle angeben!", true)
-                                .addOption(OptionType.STRING, twitchChannel, "Hier bitte den Twitch Benachrichtigung`s Channel angeben!", true),
-                        new SubcommandData(cmdTwitchChannelRemove, "Entferne einen Twitch Channel von deinem Discord Server!")
-                                .addOption(OptionType.STRING, twitchChannel, "Hier bitte den Twitch Benachrichtigung`s Channel angeben!", true)
-                ).setGuildOnly(true);
+        return Commands.slash(cmdTwitchChannel, "Füge die Benachrichtigung eines Twitch Kanals dem Discord Server hinzu!").addSubcommands(new SubcommandData(cmdTwitchChannelAdd, "Setzte den Info Channel für deine Twitch Live Streams").addOption(OptionType.CHANNEL, discordChannel, "Hier bitte den Discord Benachrichtigung`s Channel angeben!", true).addOption(OptionType.ROLE, discordRole, "Hier bitte die Discord Benachrichtigung`s Rolle angeben!", true).addOption(OptionType.STRING, twitchChannel, "Hier bitte den Twitch Benachrichtigung`s Channel angeben!", true), new SubcommandData(cmdTwitchChannelRemove, "Entferne einen Twitch Channel von deinem Discord Server!").addOption(OptionType.STRING, twitchChannel, "Hier bitte den Twitch Benachrichtigung`s Channel angeben!", true)).setGuildOnly(true);
     }
 
     @Override

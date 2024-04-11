@@ -10,11 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MysqlConnection {
 
-
     private final HikariDataSource source;
-    public static String colmDcStreamNotifyChannel = "DcStreamNotifyChannelID";
-    public static String colmDcStreamNotifyRole = "DcStreamNotifyRoleID";
-    public static String colmTwitchChannel = "TwitchChannel";
 
     public MysqlConnection() throws SQLException {
         this.source = getConfig();
