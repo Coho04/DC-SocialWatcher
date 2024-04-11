@@ -55,10 +55,10 @@ public class TwitchChannel implements CommandInterface {
         } else if (e.getSubcommandName().equalsIgnoreCase(cmdTwitchChannelRemove)) {
             String channel = e.getOption(twitchChannel).getAsString();
             assert e.getGuild() != null;
-            try (Connection connection = Main.getMysqlConnection().getSource().getConnection()) {
+            try (Connection connection = Main.getMysql().getSource().getConnection()) {
                 String selectQuery = "SELECT COUNT(1) FROM twitch_guilds WHERE discord_guild_id = (SELECT id FROM discord_guild WHERE guild_id = ?) AND twitch_channel_id = (SELECT id FROM twitch_channel WHERE twitch_channel = ?);";
                 PreparedStatement statement = connection.prepareStatement(selectQuery);
-                statement.execute("USE 'GD-SozialWatcher'");
+                statement.execute("USE `GD-SozialWatcher`");
                 statement.setLong(1, e.getGuild().getIdLong());
                 statement.setString(2, channel);
                 try (ResultSet rs = statement.executeQuery()) {
@@ -86,7 +86,7 @@ public class TwitchChannel implements CommandInterface {
 
     public boolean insertIntoTwitch(Guild guild, Channel discordChannel, Role discordRole, String twitchChannel) {
         String insertIntoCQuery = "INSERT INTO twitch_guilds (twitch_channel_id, discord_guild_id, discord_text_channel_id, discord_role_id) VALUES (?, ?, ?, ?)";
-        try (Connection conn = Main.getMysqlConnection().getSource().getConnection()) {
+        try (Connection conn = Main.getMysql().getSource().getConnection()) {
             OptionalInt discordGuildExists = getRowIdOrInsertRow(conn, "discord_guild", "guild_id", guild.getId());
             OptionalInt twitchChannelExists = getRowIdOrInsertRow(conn, "twitch_channel", "twitch_channel", twitchChannel);
             if (discordGuildExists.isPresent() && twitchChannelExists.isPresent()) {

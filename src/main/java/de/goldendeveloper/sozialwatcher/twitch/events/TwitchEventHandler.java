@@ -27,10 +27,10 @@ public class TwitchEventHandler {
     @EventSubscriber
     public void onChannelGoLive(ChannelGoLiveEvent e) {
         String twitchChannel = e.getChannel().getName();
-        try (Connection connection = Main.getMysqlConnection().getSource().getConnection()) {
+        try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT guild_id, discord_text_channel_id, discord_role_id FROM discord_guild dg JOIN twitch_guilds tg ON dg.id = tg.discord_guild_id WHERE tg.twitch_channel_id = (SELECT id FROM twitch_channel WHERE twitch_channel LIKE ?);";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("use 'GD-SozialWatcher'");
+            statement.execute("USE `GD-SozialWatcher`");
             statement.setString(1, twitchChannel);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

@@ -34,10 +34,10 @@ public class YouTubeDiscordNotifier {
             YouTube youtube = new YouTube.Builder(GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(), null).setApplicationName("youtube-discord-notifier").build();
             YouTube.Channels.List channelRequest = youtube.channels().list(Collections.singletonList("contentDetails"));
             channelRequest.setKey(Main.getCustomConfig().getYtApiKey());
-            try (Connection connection = Main.getMysqlConnection().getSource().getConnection()) {
+            try (Connection connection = Main.getMysql().getSource().getConnection()) {
                 String selectQuery = "SELECT youtube_channel FROM youtube_channel group by youtube_channel;";
                 PreparedStatement statement = connection.prepareStatement(selectQuery);
-                statement.execute("use 'GD-SozialWatcher'");
+                statement.execute("USE `GD-SozialWatcher`");
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
                     String youtubeChannelId = rs.getString("youtube_channel_id");
@@ -67,10 +67,10 @@ public class YouTubeDiscordNotifier {
         YouTube.Channels.List request = youtube.channels().list(Collections.singletonList("snippet")).setId(Collections.singletonList(youtubeChannelId)).setKey(Main.getCustomConfig().getYtApiKey());
         String channelName = request.execute().getItems().getFirst().getSnippet().getTitle();
 
-        try (Connection connection = Main.getMysqlConnection().getSource().getConnection()) {
+        try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT guild_id, discord_text_channel_id, last_video_uuid FROM youtube_guild yg" + " JOIN discord_guild dg ON yg.discord_guild_id = dg.id" + " JOIN youtube_channel yc on yg.youtube_channel_id = yc.id" + " WHERE yc.youtube_channel = ?;";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("use 'GD-SozialWatcher'");
+            statement.execute("USE `GD-SozialWatcher`");
             statement.setString(1, youtubeChannelId);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -125,7 +125,7 @@ public class YouTubeDiscordNotifier {
     private void updateLastVideoId(Connection connection, String videoId, String youtubeChannelId) throws SQLException {
         String updateQuery = "UPDATE youtube_channel SET last_video_uuid = ? where youtube_channel = ?";
         PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-        updateStatement.execute("use 'GD-SozialWatcher'");
+        updateStatement.execute("USE `GD-SozialWatcher`");
         updateStatement.setString(1, videoId);
         updateStatement.setString(2, youtubeChannelId);
         updateStatement.executeUpdate();

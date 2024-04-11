@@ -38,10 +38,10 @@ public class CustomEvents extends ListenerAdapter {
 
     public List<String> getGuildTwitchChannel(Guild guild) {
         List<String> channels = new ArrayList<>();
-        try (Connection connection = Main.getMysqlConnection().getSource().getConnection()) {
+        try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT COUNT(1),twitch_channel FROM twitch_channel WHERE id in (SELECT twitch_channel_id FROM twitch_guilds where discord_guild_id = ?);";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("use 'GD-SozialWatcher'");
+            statement.execute("USE `GD-SozialWatcher`");
             statement.setLong(1, guild.getIdLong());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
