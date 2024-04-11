@@ -36,5 +36,4 @@ public class CustomConfig extends Config {
         return dotenv.get("TWITCH_CREDENTIAL");
     }
 
-
 }

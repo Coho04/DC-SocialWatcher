@@ -24,7 +24,7 @@ public class Main {
         dcBotBuilder.registerEvents(new CustomEvents());
         dcBotBuilder.registerCommands(new Settings(), new TwitchChannel());
         dcBot = dcBotBuilder.build();
-        mysqlConnection = new MysqlConnection(customConfig.getMysqlHostname(), customConfig.getMysqlUsername(), customConfig.getMysqlPassword(), customConfig.getMysqlPort());
+        mysqlConnection = new MysqlConnection();
         twitch = new Twitch();
         new YouTubeDiscordNotifier();
     }
