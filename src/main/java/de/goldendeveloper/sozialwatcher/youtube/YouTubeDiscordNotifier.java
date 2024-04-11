@@ -1,6 +1,7 @@
 package de.goldendeveloper.sozialwatcher.youtube;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ChannelListResponse;
@@ -39,6 +40,8 @@ public class YouTubeDiscordNotifier {
                 channelRequest.setId(Collections.singletonList(channel));
                 getOrCheck(channelRequest.execute(), youtube, channel);
             }
+        } catch (GoogleJsonResponseException e) {
+            System.out.println("Api not reachable. Retrying in 1 minute");
         } catch (IOException | GeneralSecurityException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +66,7 @@ public class YouTubeDiscordNotifier {
                 .list(Collections.singletonList("snippet"))
                 .setId(Collections.singletonList(youtubeChannelId))
                 .setKey(Main.getCustomConfig().getYtApiKey());
-        String channelName = request.execute().getItems().get(0).getSnippet().getTitle();
+        String channelName = request.execute().getItems().getFirst().getSnippet().getTitle();
 
         if (data.get("LastVideoID") != null) {
             if (!videoId.equals(data.get("LastVideoID").getAsString())) {
