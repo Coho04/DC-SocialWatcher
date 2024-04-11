@@ -40,7 +40,7 @@ public class YouTubeDiscordNotifier {
                 statement.execute("USE `GD-SozialWatcher`");
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
-                    String youtubeChannelId = rs.getString("youtube_channel_id");
+                    String youtubeChannelId = rs.getString("youtube_channel");
                     channelRequest.setId(Collections.singletonList(youtubeChannelId));
                     getOrCheck(channelRequest.execute(), youtube, youtubeChannelId);
                 }
