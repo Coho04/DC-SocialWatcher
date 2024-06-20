@@ -1,12 +1,12 @@
 package de.goldendeveloper.sozialwatcher;
 
-import de.goldendeveloper.dcbcore.DCBot;
-import de.goldendeveloper.dcbcore.DCBotBuilder;
 import de.goldendeveloper.sozialwatcher.twitch.Twitch;
 import de.goldendeveloper.sozialwatcher.twitch.discord.commands.Settings;
 import de.goldendeveloper.sozialwatcher.twitch.discord.commands.TwitchChannel;
 import de.goldendeveloper.sozialwatcher.twitch.discord.events.CustomEvents;
 import de.goldendeveloper.sozialwatcher.youtube.YouTubeDiscordNotifier;
+import io.github.coho04.dcbcore.DCBot;
+import io.github.coho04.dcbcore.DCBotBuilder;
 
 public class Main {
 
