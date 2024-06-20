@@ -1,8 +1,8 @@
 package de.goldendeveloper.sozialwatcher.twitch.discord.commands;
 
-import de.goldendeveloper.dcbcore.DCBot;
-import de.goldendeveloper.dcbcore.interfaces.CommandInterface;
 import de.goldendeveloper.sozialwatcher.Main;
+import io.github.coho04.dcbcore.DCBot;
+import io.github.coho04.dcbcore.interfaces.CommandInterface;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
