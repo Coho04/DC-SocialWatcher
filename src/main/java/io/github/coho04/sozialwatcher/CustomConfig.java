@@ -1,4 +1,4 @@
-package de.goldendeveloper.sozialwatcher;
+package io.github.coho04.sozialwatcher;
 
 import io.github.coho04.dcbcore.Config;
 

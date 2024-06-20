@@ -1,7 +1,7 @@
-package de.goldendeveloper.sozialwatcher.twitch.discord.events;
+package io.github.coho04.sozialwatcher.twitch.discord.events;
 
-import de.goldendeveloper.sozialwatcher.Main;
-import de.goldendeveloper.sozialwatcher.twitch.discord.commands.Settings;
+import io.github.coho04.sozialwatcher.Main;
+import io.github.coho04.sozialwatcher.twitch.discord.commands.Settings;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;

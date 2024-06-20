@@ -1,11 +1,11 @@
-package de.goldendeveloper.sozialwatcher.twitch;
+package io.github.coho04.sozialwatcher.twitch;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import de.goldendeveloper.sozialwatcher.Main;
-import de.goldendeveloper.sozialwatcher.twitch.events.TwitchEventHandler;
+import io.github.coho04.sozialwatcher.Main;
+import io.github.coho04.sozialwatcher.twitch.events.TwitchEventHandler;
 import io.sentry.Sentry;
 
 import java.sql.Connection;

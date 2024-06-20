@@ -1,6 +1,6 @@
-package de.goldendeveloper.sozialwatcher.twitch.discord.commands;
+package io.github.coho04.sozialwatcher.twitch.discord.commands;
 
-import de.goldendeveloper.sozialwatcher.Main;
+import io.github.coho04.sozialwatcher.Main;
 import io.github.coho04.dcbcore.DCBot;
 import io.github.coho04.dcbcore.interfaces.CommandInterface;
 import io.sentry.Sentry;

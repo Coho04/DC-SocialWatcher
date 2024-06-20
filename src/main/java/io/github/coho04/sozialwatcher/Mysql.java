@@ -1,4 +1,4 @@
-package de.goldendeveloper.sozialwatcher;
+package io.github.coho04.sozialwatcher;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

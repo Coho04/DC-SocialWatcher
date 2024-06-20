@@ -1,10 +1,10 @@
-package de.goldendeveloper.sozialwatcher.twitch.events;
+package io.github.coho04.sozialwatcher.twitch.events;
 
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
 import com.github.twitch4j.chat.events.channel.*;
 import com.github.twitch4j.events.*;
 import com.github.twitch4j.helix.domain.SubscriptionEvent;
-import de.goldendeveloper.sozialwatcher.Main;
+import io.github.coho04.sozialwatcher.Main;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -102,7 +102,7 @@ public class TwitchEventHandler {
                 .setImage("https://static-cdn.jtvnw.net/previews-ttv/live_user_" + channelName + "-1920x1080.png")
                 .setDescription("Spielt nun " + gameName + " für " + viewerCount + " Zuschauern! \n" +
                         "[Schau vorbei](https://twitch.tv/" + channelName + ")")
-                .setFooter("@Golden-Developer")
+                .setFooter("@SozialWatcher")
                 .build();
     }
 }

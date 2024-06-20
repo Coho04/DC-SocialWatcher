@@ -1,4 +1,4 @@
-package de.goldendeveloper.sozialwatcher.youtube;
+package io.github.coho04.sozialwatcher.youtube;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -6,7 +6,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
-import de.goldendeveloper.sozialwatcher.Main;
+import io.github.coho04.sozialwatcher.Main;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
