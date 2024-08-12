@@ -37,7 +37,7 @@ public class YouTubeDiscordNotifier {
             try (Connection connection = Main.getMysql().getSource().getConnection()) {
                 String selectQuery = "SELECT youtube_channel FROM youtube_channel group by youtube_channel;";
                 PreparedStatement statement = connection.prepareStatement(selectQuery);
-                statement.execute("USE `GD-SozialWatcher`");
+                statement.execute("USE `sozial_watcher_db`");
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
                     String youtubeChannelId = rs.getString("youtube_channel");
@@ -70,7 +70,7 @@ public class YouTubeDiscordNotifier {
         try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT guild_id, discord_text_channel_id, last_video_uuid FROM youtube_guild yg" + " JOIN discord_guild dg ON yg.discord_guild_id = dg.id" + " JOIN youtube_channel yc on yg.youtube_channel_id = yc.id" + " WHERE yc.youtube_channel = ?;";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("USE `GD-SozialWatcher`");
+            statement.execute("USE `sozial_watcher_db`");
             statement.setString(1, youtubeChannelId);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -125,7 +125,7 @@ public class YouTubeDiscordNotifier {
     private void updateLastVideoId(Connection connection, String videoId, String youtubeChannelId) throws SQLException {
         String updateQuery = "UPDATE youtube_channel SET last_video_uuid = ? where youtube_channel = ?";
         PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-        updateStatement.execute("USE `GD-SozialWatcher`");
+        updateStatement.execute("USE `sozial_watcher_db`");
         updateStatement.setString(1, videoId);
         updateStatement.setString(2, youtubeChannelId);
         updateStatement.executeUpdate();

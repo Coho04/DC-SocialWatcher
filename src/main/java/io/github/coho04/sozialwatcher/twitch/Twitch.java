@@ -37,7 +37,7 @@ public class Twitch {
         try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT twitch_channel FROM twitch_channel group by twitch_channel;";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("USE `GD-SozialWatcher`");
+            statement.execute("USE `sozial_watcher_db`");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String twitchChannel = rs.getString("twitch_channel");

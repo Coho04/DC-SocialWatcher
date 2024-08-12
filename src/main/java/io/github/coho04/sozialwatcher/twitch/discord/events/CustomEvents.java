@@ -41,7 +41,7 @@ public class CustomEvents extends ListenerAdapter {
         try (Connection connection = Main.getMysql().getSource().getConnection()) {
             String selectQuery = "SELECT COUNT(1),twitch_channel FROM twitch_channel WHERE id in (SELECT twitch_channel_id FROM twitch_guilds where discord_guild_id = ?);";
             PreparedStatement statement = connection.prepareStatement(selectQuery);
-            statement.execute("USE `GD-SozialWatcher`");
+            statement.execute("USE `sozial_watcher_db`");
             statement.setLong(1, guild.getIdLong());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

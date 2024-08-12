@@ -17,8 +17,8 @@ public class Mysql {
         this.source = getConfig();
         try {
             Statement statement = this.source.getConnection().createStatement();
-            statement.execute("CREATE DATABASE IF NOT EXISTS `GD-SozialWatcher`;");
-            statement.execute("USE `GD-SozialWatcher`;");
+            statement.execute("CREATE DATABASE IF NOT EXISTS `sozial_watcher_db`;");
+            statement.execute("USE `sozial_watcher_db`;");
             statement.execute("CREATE TABLE IF NOT EXISTS discord_guild (id INT AUTO_INCREMENT NOT NULL PRIMARY KEY, guild_id MEDIUMTEXT NULL );");
             statement.execute("CREATE TABLE IF NOT EXISTS twitch_channel(id INT AUTO_INCREMENT NOT NULL  PRIMARY KEY, twitch_channel VARCHAR(255) NULL);");
             statement.execute("CREATE TABLE IF NOT EXISTS youtube_channel(id INT AUTO_INCREMENT NOT NULL  PRIMARY KEY, youtube_channel VARCHAR(255) NULL, last_video_uuid VARCHAR(255) NULL);");
