@@ -46,9 +46,9 @@ jobs:
         with:
           command: |
             cd ${{ secrets.SERVER_DIR }} && cd ../
-            sudo docker compose down gd_sozial_watcher
-            sudo docker compose build --no-cache gd_sozial_watcher
-            sudo docker compose up -d gd_sozial_watcher
+            docker compose down gd_sozial_watcher
+            docker compose build --no-cache gd_sozial_watcher
+            docker compose up -d gd_sozial_watcher
           host: ${{ secrets.HOST }}
           port: 22
           user: ${{ secrets.USERNAME }}
