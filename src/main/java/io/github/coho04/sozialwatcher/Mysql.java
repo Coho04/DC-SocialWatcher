@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.sentry.Sentry;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +25,63 @@ public class Mysql {
             statement.execute("CREATE TABLE IF NOT EXISTS youtube_channel(id INT AUTO_INCREMENT NOT NULL  PRIMARY KEY, youtube_channel VARCHAR(255) NULL, last_video_uuid VARCHAR(255) NULL);");
             statement.execute("CREATE TABLE IF NOT EXISTS youtube_guild(id INT AUTO_INCREMENT NOT NULL  PRIMARY KEY, discord_guild_id INT NULL, youtube_channel_id INT NULL, discord_text_channel_id mediumtext NULL, FOREIGN KEY (discord_guild_id) REFERENCES discord_guild (id), FOREIGN KEY (youtube_channel_id) REFERENCES youtube_channel (id));");
             statement.execute("CREATE TABLE IF NOT EXISTS twitch_guilds(id INT AUTO_INCREMENT PRIMARY KEY, discord_guild_id INT NULL, twitch_channel_id INT NULL,discord_text_channel_id mediumtext NULL,discord_role_id mediumtext NULL,FOREIGN KEY (discord_guild_id) REFERENCES discord_guild (id),FOREIGN KEY (twitch_channel_id) REFERENCES twitch_channel (id));");
-            statement.execute("CREATE INDEX IF NOT EXISTS discord_guild_id ON twitch_guilds (discord_guild_id);");
-            statement.execute("CREATE INDEX IF NOT EXISTS discord_guild_id ON youtube_guild (discord_guild_id);");
-            statement.execute("CREATE INDEX IF NOT EXISTS twitch_channel_id ON twitch_guilds (twitch_channel_id);");
-            statement.execute("CREATE INDEX IF NOT EXISTS youtube_channel_id ON youtube_guild (youtube_channel_id);");
+            try {
+                ResultSet resultSet = this.source.getConnection().getMetaData().getIndexInfo(null, null, "twitch_guilds", false, false);
+                boolean indexExists = false;
+                while (resultSet.next()) {
+                    if ("discord_guild_id".equals(resultSet.getString("INDEX_NAME"))) {
+                        indexExists = true;
+                        break;
+                    }
+                }
+                resultSet.close();
+                if (!indexExists) {
+                    statement.execute("CREATE INDEX discord_guild_id ON twitch_guilds (discord_guild_id);");
+                }
+
+                resultSet = this.source.getConnection().getMetaData().getIndexInfo(null, null, "youtube_guild", false, false);
+                indexExists = false;
+                while (resultSet.next()) {
+                    if ("discord_guild_id".equals(resultSet.getString("INDEX_NAME"))) {
+                        indexExists = true;
+                        break;
+                    }
+                }
+                resultSet.close();
+                if (!indexExists) {
+                    statement.execute("CREATE INDEX discord_guild_id ON youtube_guild (discord_guild_id);");
+                }
+
+                resultSet = this.source.getConnection().getMetaData().getIndexInfo(null, null, "twitch_guilds", false, false);
+                indexExists = false;
+                while (resultSet.next()) {
+                    if ("twitch_channel_id".equals(resultSet.getString("INDEX_NAME"))) {
+                        indexExists = true;
+                        break;
+                    }
+                }
+                resultSet.close();
+                if (!indexExists) {
+                    statement.execute("CREATE INDEX twitch_channel_id ON twitch_guilds (twitch_channel_id);");
+                }
+
+                resultSet = this.source.getConnection().getMetaData().getIndexInfo(null, null, "youtube_guild", false, false);
+                indexExists = false;
+                while (resultSet.next()) {
+                    if ("youtube_channel_id".equals(resultSet.getString("INDEX_NAME"))) {
+                        indexExists = true;
+                        break;
+                    }
+                }
+                resultSet.close();
+                if (!indexExists) {
+                    statement.execute("CREATE INDEX youtube_channel_id ON youtube_guild (youtube_channel_id);");
+                }
+            } catch (SQLException exception) {
+                System.out.println(exception.getMessage());
+                Sentry.captureException(exception);
+            }
+
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
