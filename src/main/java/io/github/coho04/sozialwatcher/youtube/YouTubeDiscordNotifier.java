@@ -77,7 +77,7 @@ public class YouTubeDiscordNotifier {
                     String lastVideoId = rs.getString("last_video_uuid");
                     String discordServerId = rs.getString("guild_id");
                     String discordChannelId = rs.getString("discord_text_channel_id");
-                    if (!lastVideoId.isEmpty() && !lastVideoId.isBlank()) {
+                    if (lastVideoId != null && !lastVideoId.isEmpty() && !lastVideoId.isBlank()) {
                         if (!videoId.equals(lastVideoId)) {
                             updateLastVideoId(connection, videoId, youtubeChannelId);
                             sendDiscordNotification(playlistItem, discordServerId, discordChannelId, channelName);
