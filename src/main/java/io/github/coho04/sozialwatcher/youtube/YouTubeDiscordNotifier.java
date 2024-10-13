@@ -10,7 +10,11 @@ import io.github.coho04.sozialwatcher.Main;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -101,7 +105,7 @@ public class YouTubeDiscordNotifier {
 
         Guild guild = Main.getDcBot().getDiscord().getBot().getGuildById(discordServerId);
         if (guild != null) {
-            NewsChannel channel = guild.getNewsChannelById(discordChannelId);
+            StandardGuildMessageChannel channel = getChannelById(discordChannelId, guild);
             if (channel != null) {
                 String description = String.format("""
                         🌟 **Neues Video veröffentlicht!** 🌟
@@ -120,6 +124,14 @@ public class YouTubeDiscordNotifier {
         } else {
             System.out.println("Guild not found: " + discordServerId);
         }
+    }
+
+    private StandardGuildMessageChannel getChannelById(String id, Guild guild) {
+        GuildChannel channel = guild.getGuildChannelById(id);
+        if (channel instanceof StandardGuildMessageChannel) {
+            return (StandardGuildMessageChannel) channel;
+        }
+        return null;
     }
 
     private void updateLastVideoId(Connection connection, String videoId, String youtubeChannelId) throws SQLException {
