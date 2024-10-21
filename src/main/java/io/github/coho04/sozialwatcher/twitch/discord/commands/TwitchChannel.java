@@ -58,7 +58,7 @@ public class TwitchChannel implements CommandInterface {
             try (Connection connection = Main.getMysql().getSource().getConnection()) {
                 String selectQuery = "SELECT COUNT(1) FROM twitch_guilds WHERE discord_guild_id = (SELECT id FROM discord_guild WHERE guild_id = ?) AND twitch_channel_id = (SELECT id FROM twitch_channel WHERE twitch_channel = ?);";
                 PreparedStatement statement = connection.prepareStatement(selectQuery);
-                statement.execute("USE `sozial_watcher_db`");
+                statement.execute("USE `"+ Main.getCustomConfig().getMysqlDatabase() +"`");
                 statement.setLong(1, e.getGuild().getIdLong());
                 statement.setString(2, channel);
                 try (ResultSet rs = statement.executeQuery()) {
@@ -66,7 +66,7 @@ public class TwitchChannel implements CommandInterface {
                         if (rs.getInt(1) > 0) {
                             String deleteQuery = "DELETE FROM twitch_guilds WHERE discord_guild_id = (SELECT id FROM discord_guild WHERE guild_id = ?) AND twitch_channel_id = (SELECT id FROM twitch_channel WHERE twitch_channel = ?);";
                             PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
-                            deleteStatement.execute("USE `sozial_watcher_db`");
+                            deleteStatement.execute("USE `"+ Main.getCustomConfig().getMysqlDatabase() +"`");
                             deleteStatement.setLong(1, e.getGuild().getIdLong());
                             deleteStatement.setString(2, channel);
                             deleteStatement.execute();
@@ -91,7 +91,7 @@ public class TwitchChannel implements CommandInterface {
             OptionalInt twitchChannelExists = getRowIdOrInsertRow(conn, "twitch_channel", "twitch_channel", twitchChannel);
             if (discordGuildExists.isPresent() && twitchChannelExists.isPresent()) {
                 try (PreparedStatement stmt = conn.prepareStatement(insertIntoCQuery)) {
-                    stmt.execute("USE `sozial_watcher_db`");
+                    stmt.execute("USE `"+ Main.getCustomConfig().getMysqlDatabase() +"`");
                     stmt.setInt(1, twitchChannelExists.getAsInt());
                     stmt.setInt(2, discordGuildExists.getAsInt());
                     stmt.setLong(3, discordChannel.getIdLong());

@@ -36,4 +36,7 @@ public class CustomConfig extends Config {
         return dotenv.get("TWITCH_CREDENTIAL");
     }
 
+    public String getMysqlDatabase() {
+        return dotenv.get("MYSQL_DATABASE");
+    }
 }
