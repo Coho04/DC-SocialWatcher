@@ -24,6 +24,7 @@ public class Main {
         mysql = new Mysql();
         twitch = new Twitch();
         new YouTubeDiscordNotifier();
+        System.out.println("Java application started successfully");
     }
 
     public static Mysql getMysql() {
